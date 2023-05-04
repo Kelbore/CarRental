@@ -8,59 +8,30 @@ function init() {
 }
 
 function onEstimateBtnClicked() {
-    const pickupDate = document.getElementById("pickupDate");
-    const numberOfDays = document.getElementById("numberOfDays");
-    const carRental = document.getElementById("carRental");
-    const options = document.getElementById("options");
-    const surcharge = document.getElementById("surcharge");
-    const totalDue = document.getElementById("totalDue");
-    let selectedOption = document.querySelector("input[name='choice']:checked");
-    let ageOption = document.querySelector("input[name='age']:checked");
+    const numberOfDays = +document.getElementById("numberOfDays").value;
+    const baseCost = numberOfDays*29.99;
 
+    document.getElementById("carRental").innerHTML = baseCost;
+
+    let optionCost = 0;
+    if(document.getElementById("tollTag").checked) {
+      optionCost += 3.95;
+    }
+    if(document.getElementById("gps").checked) {
+      optionCost += 4.95;
+    }
+    if(document.getElementById("roadside").checked) {
+      optionCost += 2.95;
+    }
+
+    document.getElementById("options").innerHTML = optionCost*numberOfDays;
     
-    if(selectedOption.value == "tollTag") {
-      if(ageOption.value = "notUnderTwentyFive") {
-        carRental.innerHTML = (Number(numberOfDays.value) * 29.99).toFixed(2);
-        options.innerHTML =  (Number(numberOfDays.value) * 3.95).toFixed(2);
-        surcharge.innerHTML = (Number(numberOfDays.value) * 29.99).toFixed(2);
-        totalDue.innerHTML = carRental.innerHTML + options.innerHTML + surcharge.innerHTML;
-      }
-      else {
-        carRental.innerHTML = Number(numberOfDays.value) * 29.99;
-        options.innerHTML =  Number(numberOfDays.value)*3.95;
-        surcharge.innerHTML = (30/100) * Number(numberOfDays.value) * 29.99;
-        totalDue.innerHTML = carRental.innerHTML + options.innerHTML + surcharge.innerHTML;
-      }
-      
+    let under25surcharge = 0;
+    if(document.getElementById("underTwentyFive").checked) {
+      under25surcharge = baseCost * 0.3;
+      document.getElementById("surcharge").innerHTML = under25surcharge.toFixed(2);
     }
-    else if(selectedOption.value == "tollTag" && selectedOption.value == "gps") {
-      if(ageOption.value == "notUnderTwentyFive") {
-        carRental.innerHTML = Number(numberOfDays.value) * 29.99;
-        options.innerHTML =  Number(numberOfDays.value)*(3.95 + 2.95);
-        surcharge.innerHTML =  Number(numberOfDays.value) * 29.99;
-        totalDue.innerHTML = carRental.innerHTML + options.innerHTML + surcharge.innerHTML;
-      }
-      else {
-        carRental.innerHTML = Number(numberOfDays.value) * 29.99;
-        options.innerHTML =  Number(numberOfDays.value)*(3.95 + 2.95);
-        surcharge.innerHTML = (30/100) * Number(numberOfDays.value) * 29.99;
-        totalDue.innerHTML = carRental.innerHTML + options.innerHTML + surcharge.innerHTML;
-      }  
-     
-    }
-    else {
-      if(ageOption.value == "notUnderTwentyFive") {
-        carRental.innerHTML = Number(numberOfDays.value) * 29.99;
-        options.innerHTML =  Number(numberOfDays.value)*(3.95 + 2.95 + 2.95);
-        surcharge.innerHTML = Number(numberOfDays.value) * 29.99;
-        totalDue.innerHTML = carRental.innerHTML + options.innerHTML + surcharge.innerHTML;
-      }
-      else {
-        carRental.innerHTML = Number(numberOfDays.value) * 29.99;
-        options.innerHTML =  Number(numberOfDays.value)*(3.95 + 2.95 + 2.95);
-        surcharge.innerHTML = (30/100) * Number(numberOfDays.value) * 29.99;
-        totalDue.innerHTML = carRental.innerHTML + options.innerHTML + surcharge.innerHTML;
-      }
-      
-    } 
+    
+    document.getElementById("totalDue").innerHTML = (baseCost + (optionCost*numberOfDays) + under25surcharge).toFixed(2);
+  
   }
